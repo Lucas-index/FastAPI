@@ -8,4 +8,4 @@ async def autenticação():
     """
     Essa é a rota de autenticação do nosso sistema
     """
-    return {"message": "Voce está na rota de autenticação"}
+    return {"message": "Voce está na rota de autenticação", "autenticado": False}

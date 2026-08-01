@@ -1,0 +1,60 @@
+from sqlalchemy import creat_enginer, Column, Strinbg, Integer, Boolean, Float, ForeignKey, create_engine
+from sqlalchemy.orm import declarite_base
+from sqlalchemy_utils.types import ChoiceType
+# cria a conexão para o seu banco de dados
+db = create_engine("sqlite:///banco.db")
+
+#cria a base para o seu banco
+Base = declarative_base() 
+
+# cria as classes/tabelas do seu banco
+# Usuario
+class Usuario(Base):
+    __tablename__ = "usuarios" #define o nome da tabela
+
+    id = Column("id", Integer, primary_key=True, autoincrement=True) #define o id como chave primaria e autoincrementável
+    nome = Column("nome", String, nullable=False) #define o nome como campo q nn pode nn ser preenchido por isso a função nullable=False
+    email = Column("email", String, nullable=False)
+    senha = Column("senha", String, nullable=False)
+    ativo = Column("ativo", Boolean, nullable=False)
+    telefone = Column("telefone", String, nullable=False)
+    admin = Column("admin", Boolean, default=False) #define o admin como campo q nn pode nn ser preenchido
+
+    def __init__(self, nome, email, senha, telefone, ativo=True, admin=False): # define a obrigação de preencher os campos nome, email, senha e telefone, e define o ativo como ele já está ativo e o admin como nn admin
+        self.nome = nome
+        self.email = email
+        self.senha = senha
+        self.ativo = ativo
+        self.telefone = telefone
+        self.admin = admin
+
+
+# Pedido
+class Pedido(Base):
+    __tablename__ = "pedidos" #define o nome da tabela
+
+    Status_Pedidos = (
+        ("Em andamento", "Em andamento"),
+        ("Finalizado", "Finalizado"),
+        ("Cancelado", "Cancelado"),
+    )
+
+    id = Column("id", Integer, primary_key=True, autoincrement=True) #define o id como chave primaria e autoincrementável
+    itens = Column("itens", String, nullable=False)
+    quantidade = Column("quantidade", Integer)
+    preco = Column("preco", Float, nullable=False)
+    frete = Column("frete", Float, nullable=False)
+    usuario = Column("usuario", Integer, ForeignKey("usuarios.id"), nullable=False) #define o usuario_id como chave estrangeira da tabela usuarios
+    status = Column("status", ChoiceType(Status_Pedidos), nullable=False, default="Em andamento") #define q com a função com a ChoiceType o status só pode ser preenchido com os valores definidos na tupla Status_Pedidos
+
+    def __init__(self, itens, quantidade, usuario, preco=0, frete=0, status="Em andamento"): # define a obrigação de preencher os campos itens, quantidade, preco, frete e usuario
+        self.itens = itens
+        self.quantidade = quantidade
+        self.preco = preco
+        self.frete = frete
+        self.usuario = usuario
+        self.status = status
+# ItensPedido
+
+#executar a criação dos metadados do banco de dados 
+
