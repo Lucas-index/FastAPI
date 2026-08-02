@@ -1,6 +1,10 @@
 from sqlalchemy import String, creat_enginer, Column, Strinbg, Integer, Boolean, Float, ForeignKey, create_engine
 from sqlalchemy.orm import declarite_base
 from sqlalchemy_utils.types import ChoiceType
+
+#para conexão utilizar pip install alembic
+#outras conexões utilizar pip install sqlalchemy-utils
+
 # cria a conexão para o seu banco de dados
 db = create_engine("sqlite:///banco.db")
 
