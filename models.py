@@ -1,4 +1,4 @@
-from sqlalchemy import creat_enginer, Column, Strinbg, Integer, Boolean, Float, ForeignKey, create_engine
+from sqlalchemy import String, creat_enginer, Column, Strinbg, Integer, Boolean, Float, ForeignKey, create_engine
 from sqlalchemy.orm import declarite_base
 from sqlalchemy_utils.types import ChoiceType
 # cria a conexão para o seu banco de dados
@@ -55,6 +55,22 @@ class Pedido(Base):
         self.usuario = usuario
         self.status = status
 # ItensPedido
+class ItemPedido(Base):
+    __tablename__ = "itens_pedido" #define o nome da tabela
+
+    id = Column("id", Integer, primary_key=True, autoincrement=True) #define o id como chave primaria e autoincrementável
+    tamanho = Column("tamanho", String, nullable=False)
+    sabor= Column("sabor", String, nullable=False)
+    quantidade = Column("quantidade", Integer, nullable=False)
+    preco_unitario = Column("preco_unitario", Float, nullable=False)
+    pedido = Column("pedido", Integer, ForeignKey("pedidos.id"), nullable=False) #define o pedido_id como chave estrangeira da tabela pedidos
+
+    def __init__(self, tamanho, sabor, quantidade, preco_unitario, pedido): # define a obrigação de preencher os campos tamanho, sabor, quantidade, preco_unitario e pedido
+        self.tamanho = tamanho
+        self.sabor = sabor
+        self.quantidade = quantidade
+        self.preco_unitario = preco_unitario
+        self.pedido = pedido
 
 #executar a criação dos metadados do banco de dados 
 
