@@ -1,5 +1,5 @@
-from sqlalchemy import String, creat_enginer, Column, Strinbg, Integer, Boolean, Float, ForeignKey, create_engine
-from sqlalchemy.orm import declarite_base
+from sqlalchemy import String, create_engine, Column, String, Integer, Boolean, Float, ForeignKey
+from sqlalchemy.orm import declarative_base
 from sqlalchemy_utils.types import ChoiceType
 
 #para conexão utilizar pip install alembic
@@ -37,11 +37,10 @@ class Usuario(Base):
 class Pedido(Base):
     __tablename__ = "pedidos" #define o nome da tabela
 
-    Status_Pedidos = (
-        ("Em andamento", "Em andamento"),
-        ("Finalizado", "Finalizado"),
-        ("Cancelado", "Cancelado"),
-    )
+   #    ("Em andamento", "Em andamento"),
+   #     ("Finalizado", "Finalizado"),
+   #     ("Cancelado", "Cancelado"),
+   #)
 
     id = Column("id", Integer, primary_key=True, autoincrement=True) #define o id como chave primaria e autoincrementável
     itens = Column("itens", String, nullable=False)
@@ -49,7 +48,7 @@ class Pedido(Base):
     preco = Column("preco", Float, nullable=False)
     frete = Column("frete", Float, nullable=False)
     usuario = Column("usuario", Integer, ForeignKey("usuarios.id"), nullable=False) #define o usuario_id como chave estrangeira da tabela usuarios
-    status = Column("status", ChoiceType(Status_Pedidos), nullable=False, default="Em andamento") #define q com a função com a ChoiceType o status só pode ser preenchido com os valores definidos na tupla Status_Pedidos
+    status = Column("status", String, nullable=False, default="Em andamento") #define q com a função com a ChoiceType o status só pode ser preenchido com os valores definidos na tupla Status_Pedidos
 
     def __init__(self, itens, quantidade, usuario, preco=0, frete=0, status="Em andamento"): # define a obrigação de preencher os campos itens, quantidade, preco, frete e usuario
         self.itens = itens
